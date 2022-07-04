@@ -466,6 +466,20 @@ public class Compilador extends javax.swing.JFrame {
     }
 
     private void semanticAnalysis() {
+        HashMap<String, String> identDataType = new HashMap<>(); 
+        identDataType.put("color", "COLOR");
+        identDataType.put("número", "NUMERO"); 
+        for(Production id: identProd) {
+            if(!identDataType.get(id.lexemeRank (0)).equals(id.lexicalCompRank(-1))){ 
+                errors.add(new ErrorLSSL(1, "error semántico {}: valor no compatible con el tipo de dato", id, true ));
+            }
+            else if(id.lexicalCompRank(-1).equals("COLOR") && !id.lexemeRank(-1).matches("#[0-9a-fA-F]+")) { 
+                    errors.add(new ErrorLSSL(2, "el color nu es un numero hexadecimal", id, false));
+        }
+            else{
+                identificadores.put(id.lexemeRank(1), id.lexemeRank(-1));
+            }
+            
     }
 
     private void colorAnalysis() {
